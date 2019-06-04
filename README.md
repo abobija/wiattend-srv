@@ -1,5 +1,5 @@
 # wiattend-srv
-NodeJS server for rfid attendance system [wiattend](https://github.com/abobija/wiattend)
+NodeJS server for RFID attendance system [wiattend](https://github.com/abobija/wiattend)
 
 ## Usage
 
