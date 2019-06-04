@@ -12,5 +12,5 @@ npm install
 Then run next command for starting the server
 
 ```
-node main.js
+npm start
 ```

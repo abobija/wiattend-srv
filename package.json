@@ -2,10 +2,10 @@
   "name": "wiattend-srv",
   "version": "1.0.0",
   "description": "NodeJS server for wiattend RFID attendance system",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node src/main.js"
   },
   "repository": {
     "type": "git",
