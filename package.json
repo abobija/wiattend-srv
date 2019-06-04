@@ -1,0 +1,20 @@
+{
+  "name": "wiattend-srv",
+  "version": "1.0.0",
+  "description": "NodeJS server for wiattend RFID attendance system",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abobija/wiattend-srv.git"
+  },
+  "author": "Alija Bobija",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abobija/wiattend-srv/issues"
+  },
+  "homepage": "https://github.com/abobija/wiattend-srv#readme"
+}
