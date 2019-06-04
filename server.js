@@ -26,6 +26,8 @@
 		var secretGuid = '2ce81521-c42f-4556-8c28-c69d7e3a3a47';
 		
 		http.createServer(function (req, res) {
+			res.statusCode = 400;
+			
 			if (req.method === 'POST' 
 				&& req.url === '/log' 
 				&& req.headers['sguid'] === secretGuid
@@ -34,6 +36,8 @@
 				var tag = _tag(req.headers['rfid-tag']);
 				
 				if(tag != null) {
+					res.statusCode = 200;
+					
 					console.log(tag);
 				}
 			}
