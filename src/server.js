@@ -5,8 +5,9 @@
 
 (function() {
 	var http = require('http');
+	var mysql = require('mysql');
 	
-	var _tag = function(rfidTagStr) {
+	var tagUid = function(rfidTagStr) {
 		if(rfidTagStr == null || rfidTagStr.length < (5 * 5 - 1)) {
 			return null;
 		}
@@ -33,16 +34,37 @@
 				&& req.headers['sguid'] === secretGuid
 				&& req.headers['rfid-tag'] != null) {
 				
-				var tag = _tag(req.headers['rfid-tag']);
+				var rfidTagUid = tagUid(req.headers['rfid-tag']);
 				
-				if(tag != null) {
-					res.statusCode = 200;
+				if(rfidTagUid != null) {
+					var conn = mysql.createConnection({
+						host     : 'localhost',
+						user     : 'root',
+						password : '00000000',
+						database : 'wiattend'
+					});
 					
-					console.log(tag);
+					conn.connect(function(err) {
+						if(err) throw err;
+						
+						conn.query("SELECT * FROM `tag` WHERE `uid` = '" + rfidTagUid + "'", function(err, tags) {
+							if(tags.length == 0) {
+								res.end();
+							} else {
+								var tag = tags[0];
+								
+								console.log(tag);
+								
+								res.statusCode = 200;
+								
+								res.end();
+							}
+						});
+					});
 				}
+			} else {
+				res.end();
 			}
-			
-			res.end();
 		}).listen(port);
 	};
 })()
