@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/abobija/wiattend-srv/issues"
   },
-  "homepage": "https://github.com/abobija/wiattend-srv#readme"
+  "homepage": "https://github.com/abobija/wiattend-srv#readme",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
 }
