@@ -7,16 +7,7 @@
 	const http   = require('http');
 	const db     = require('mysql');
 	const config = require('./config');
-	
-	var tagUid = (rfidTagStr) => {
-		if(rfidTagStr == null || rfidTagStr.length < (5 * 5 - 1)) {
-			return null;
-		}
-		
-		var bytes = rfidTagStr.split(' ').filter(el => el.length != 0);
-		
-		return bytes.length == 5 ? bytes.join(' ') : null;
-	};
+	const rfid   = require('./rfid');
 	
 	exports.start = () => {
 		var secretGuid = '2ce81521-c42f-4556-8c28-c69d7e3a3a47';
@@ -24,16 +15,16 @@
 		http.createServer((req, res) => {
 			res.statusCode = 400;
 			
-			if (req.method === 'POST' 
-				&& req.url === '/log' 
+			if (req.method === 'POST'
+				&& req.url === '/log'
 				&& req.headers['sguid'] === secretGuid
 				&& req.headers['rfid-tag'] != null) {
 				
-				var rfidTagUid = tagUid(req.headers['rfid-tag']);
+				var rfidUid = rfid.tag(req.headers['rfid-tag']);
 				
-				if(rfidTagUid != null) {
-					console.log(rfidTagUid);
-								
+				if(rfidUid != null) {
+					console.log(rfidUid);
+					
 					var conn = db.createConnection(config.mysql);
 					
 					conn.connect((err) => {
@@ -41,7 +32,7 @@
 						
 						conn.query("SELECT t.*,"
 							+ " (SELECT COALESCE((SELECT l.`direction` FROM `log` l WHERE `tag_id` = t.id ORDER BY l.`id` DESC LIMIT 1) * -1, 1)) AS next_direction"
-							+ " FROM `tag` t WHERE t.`uid` = '" + rfidTagUid + "'", (err, tags) => {
+							+ " FROM `tag` t WHERE t.`uid` = '" + rfidUid + "'", (err, tags) => {
 							if(err) throw err;
 							
 							if(tags.length == 0) {
