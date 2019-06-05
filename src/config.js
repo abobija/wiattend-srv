@@ -4,8 +4,8 @@
  */
 
 module.exports = {
-	httpPort  : 8181,
-	mysql : {
+	httpPort: 8181,
+	mysql: {
 		host     : 'localhost',
 		user     : 'root',
 		password : '00000000',
