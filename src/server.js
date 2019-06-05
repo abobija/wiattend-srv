@@ -52,6 +52,6 @@
 			} else {
 				res.end();
 			}
-		}).listen(config.port);
+		}).listen(config.httpPort);
 	};
 })();

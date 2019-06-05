@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-	port  : 8181,
+	httpPort  : 8181,
 	mysql : {
 		host     : 'localhost',
 		user     : 'root',
