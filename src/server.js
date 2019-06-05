@@ -4,16 +4,9 @@
  */
 
 (() => {
-	const http = require('http');
-	const db = require('mysql');
-	
-	// MySQL configuration
-	const dbConfig = {
-		host     : 'localhost',
-		user     : 'root',
-		password : '00000000',
-		database : 'wiattend'
-	};
+	const http   = require('http');
+	const db     = require('mysql');
+	const config = require('./config');
 	
 	var tagUid = (rfidTagStr) => {
 		if(rfidTagStr == null || rfidTagStr.length < (5 * 5 - 1)) {
@@ -25,7 +18,7 @@
 		return bytes.length == 5 ? bytes.join(' ') : null;
 	};
 	
-	exports.start = (port) => {
+	exports.start = () => {
 		var secretGuid = '2ce81521-c42f-4556-8c28-c69d7e3a3a47';
 		
 		http.createServer((req, res) => {
@@ -41,7 +34,7 @@
 				if(rfidTagUid != null) {
 					console.log(rfidTagUid);
 								
-					var conn = db.createConnection(dbConfig);
+					var conn = db.createConnection(config.mysql);
 					
 					conn.connect((err) => {
 						if(err) throw err;
@@ -70,6 +63,6 @@
 			} else {
 				res.end();
 			}
-		}).listen(port);
+		}).listen(config.port);
 	};
 })();
