@@ -1,5 +1,7 @@
 # wiattend-srv
-NodeJS server for RFID attendance system [wiattend](https://github.com/abobija/wiattend)
+[NodeJS](https://nodejs.org) server for RFID attendance system [wiattend](https://github.com/abobija/wiattend).
+
+Server uses [MySQL](https://www.mysql.com) database management system.
 
 ## Usage
 
