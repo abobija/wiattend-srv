@@ -4,8 +4,8 @@
  */
 
 (function() {
-	var http = require('http');
-	var mysql = require('mysql');
+	const http = require('http');
+	const mysql = require('mysql');
 	
 	var tagUid = function(rfidTagStr) {
 		if(rfidTagStr == null || rfidTagStr.length < (5 * 5 - 1)) {
@@ -37,6 +37,8 @@
 				var rfidTagUid = tagUid(req.headers['rfid-tag']);
 				
 				if(rfidTagUid != null) {
+					console.log(rfidTagUid);
+								
 					var conn = mysql.createConnection({
 						host     : 'localhost',
 						user     : 'root',
@@ -47,17 +49,23 @@
 					conn.connect(function(err) {
 						if(err) throw err;
 						
-						conn.query("SELECT * FROM `tag` WHERE `uid` = '" + rfidTagUid + "'", function(err, tags) {
+						conn.query("SELECT t.*,"
+							+ " (SELECT COALESCE((SELECT l.`direction` FROM `log` l WHERE `tag_id` = t.id ORDER BY l.`id` DESC LIMIT 1) * -1, 1)) AS next_direction"
+							+ " FROM `tag` t WHERE t.`uid` = '" + rfidTagUid + "'", function(err, tags) {
+							if(err) throw err;
+							
 							if(tags.length == 0) {
 								res.end();
 							} else {
 								var tag = tags[0];
 								
-								console.log(tag);
-								
-								res.statusCode = 200;
-								
-								res.end();
+								conn.query('INSERT INTO `log`(`tag_id`, `direction`) VALUES(' + tag.id + ', ' + tag.next_direction + ')', function(err, insertLogResult) {
+									if(err) throw err;
+									
+									res.statusCode = 200;
+									res.write(JSON.stringify(tag));
+									res.end();
+								});
 							}
 						});
 					});
