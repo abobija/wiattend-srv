@@ -3,18 +3,18 @@
  * https://github.com/abobija/wiattend-srv
  */
 
-(function() {
+(() => {
 	const http = require('http');
 	const mysql = require('mysql');
 	
-	var tagUid = function(rfidTagStr) {
+	var tagUid = (rfidTagStr) => {
 		if(rfidTagStr == null || rfidTagStr.length < (5 * 5 - 1)) {
 			return null;
 		}
 		
 		var bytes = rfidTagStr
 			.split (' ')
-			.filter(function(el) { return el.length != 0; });
+			.filter(el => el.length != 0);
 		
 		if(bytes.length != 5) {
 			return null;
@@ -23,10 +23,10 @@
 		return bytes.join(' ');
 	};
 	
-	exports.start = function (port) {
+	exports.start = (port) => {
 		var secretGuid = '2ce81521-c42f-4556-8c28-c69d7e3a3a47';
 		
-		http.createServer(function (req, res) {
+		http.createServer((req, res) => {
 			res.statusCode = 400;
 			
 			if (req.method === 'POST' 
@@ -46,12 +46,12 @@
 						database : 'wiattend'
 					});
 					
-					conn.connect(function(err) {
+					conn.connect((err) => {
 						if(err) throw err;
 						
 						conn.query("SELECT t.*,"
 							+ " (SELECT COALESCE((SELECT l.`direction` FROM `log` l WHERE `tag_id` = t.id ORDER BY l.`id` DESC LIMIT 1) * -1, 1)) AS next_direction"
-							+ " FROM `tag` t WHERE t.`uid` = '" + rfidTagUid + "'", function(err, tags) {
+							+ " FROM `tag` t WHERE t.`uid` = '" + rfidTagUid + "'", (err, tags) => {
 							if(err) throw err;
 							
 							if(tags.length == 0) {
@@ -59,7 +59,7 @@
 							} else {
 								var tag = tags[0];
 								
-								conn.query('INSERT INTO `log`(`tag_id`, `direction`) VALUES(' + tag.id + ', ' + tag.next_direction + ')', function(err, insertLogResult) {
+								conn.query('INSERT INTO `log`(`tag_id`, `direction`) VALUES(' + tag.id + ', ' + tag.next_direction + ')', (err, insertLogResult)  => {
 									if(err) throw err;
 									
 									res.statusCode = 200;
