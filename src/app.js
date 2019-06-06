@@ -9,10 +9,23 @@ const config = require('./config');
 const rfid   = require('./rfid');
 const ws     = require('express-ws')(app);
 
-app.ws('/', _ws => {
-	_ws.on('message', msg => {
-		_ws.send("I've received: " + msg);
+let wsResponse = (eventName, obj) => {
+	return JSON.stringify({
+		event: eventName,
+		data: obj
 	});
+};
+
+let wsBroadcast = (eventName, obj) => {
+	for(let _ws of ws.getWss().clients) {
+		_ws.send(wsResponse(eventName, obj));
+	}
+};
+
+app.ws('/', _ws => {
+	/*_ws.on('message', msg => {
+		_ws.send(msg);
+	});*/
 });
 
 app.post('/log', (req, res) => {
@@ -45,6 +58,8 @@ app.post('/log', (req, res) => {
 							res.statusCode = 200;
 							res.write(JSON.stringify(tag));
 							res.end();
+
+							wsBroadcast('logged', tag);
 						});
 					}
 				});
