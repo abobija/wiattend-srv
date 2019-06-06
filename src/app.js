@@ -7,21 +7,20 @@ const app    = require('express')();
 const db     = require('mysql');
 const config = require('./config');
 const rfid   = require('./rfid');
+const ws     = require('express-ws')(app);
 
 app.post('/log', (req, res) => {
 	res.statusCode = 400;
 	
-	if (req.headers['sguid'] === '2ce81521-c42f-4556-8c28-c69d7e3a3a47'
-		&& req.headers['rfid-tag'] != null) {
-		
+	if (req.headers['sguid'] === '2ce81521-c42f-4556-8c28-c69d7e3a3a47' && req.headers['rfid-tag'] != null) {
 		var rfidUid = rfid.tag(req.headers['rfid-tag']);
 		
 		if(rfidUid != null) {
-			console.log(rfidUid);
+			console.log('Received tag:', rfidUid);
 			
 			var conn = db.createConnection(config.mysql);
 			
-			conn.connect((err) => {
+			conn.connect(err => {
 				if(err) throw err;
 				
 				conn.query("SELECT t.*,"
@@ -50,6 +49,4 @@ app.post('/log', (req, res) => {
 	}
 });
 
-app.listen(config.httpPort, () => {
-	console.log('Server has been started.');
-});
+app.listen(config.port, () => console.log('Server has been started.'));
