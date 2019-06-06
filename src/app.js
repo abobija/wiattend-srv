@@ -3,12 +3,10 @@
  * https://github.com/abobija/wiattend-srv
  */
 
-const express = require('express');
+const app    = require('express')();
 const db     = require('mysql');
 const config = require('./config');
 const rfid   = require('./rfid');
-
-const app = express();
 
 app.post('/log', (req, res) => {
 	res.statusCode = 400;
