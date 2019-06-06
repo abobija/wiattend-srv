@@ -9,6 +9,12 @@ const config = require('./config');
 const rfid   = require('./rfid');
 const ws     = require('express-ws')(app);
 
+app.ws('/', _ws => {
+	_ws.on('message', msg => {
+		_ws.send("I've received: " + msg);
+	});
+});
+
 app.post('/log', (req, res) => {
 	res.statusCode = 400;
 	
