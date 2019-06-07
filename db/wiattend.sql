@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.6
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jun 05, 2019 at 06:44 PM
--- Server version: 5.7.17-log
--- PHP Version: 7.1.1
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -53,7 +44,9 @@ CREATE TABLE `tag` (
 INSERT INTO `tag` (`id`, `uid`, `first_name`, `last_name`) VALUES
 (1, '0x00 0x01 0x02 0x03 0x04', 'Elon', 'Musk'),
 (2, '0x05 0x06 0x07 0x08 0x09', 'Stephen', 'Hawking'),
-(3, '0xA1 0xA2 0xA3 0xA4 0xA5', 'Nikola', 'Tesla');
+(3, '0xA1 0xA2 0xA3 0xA4 0xA5', 'Nikola', 'Tesla'),
+(4, '0xC6 0xD0 0x98 0xAC 0x22', 'Thomas', 'Edison'),
+(5, '0x4A 0x23 0x54 0xC4 0xD2', 'Albert', 'Einstein');
 
 --
 -- Indexes for dumped tables
@@ -81,12 +74,12 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
