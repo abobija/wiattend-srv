@@ -25,14 +25,16 @@ let wsBroadcast = (eventName, obj) => {
 app.ws('/', _ws => {});
 
 app.get('/tags', (req, res) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	let conn = db.createConnection(config.mysql);
-			
+
 	conn.connect(err => {
 		if(err) throw err;
 		
 		conn.query("SELECT t.*, COALESCE((SELECT l.direction FROM `log` l where l.tag_id = t.id ORDER BY l.id DESC LIMIT 1), 0) = 1 AS present_status FROM `tag` t", (err, tags) => {
 			if(err) throw err;
 
+			conn.end();
 			res.send(JSON.stringify({ data: tags }));
 		});
 	});
@@ -46,7 +48,7 @@ app.post('/log', (req, res) => {
 		
 		if(rfidUid != null) {
 			console.log('Received tag:', rfidUid);
-			
+
 			let conn = db.createConnection(config.mysql);
 			
 			conn.connect(err => {
@@ -58,6 +60,7 @@ app.post('/log', (req, res) => {
 					if(err) throw err;
 					
 					if(tags.length == 0) {
+						conn.end();
 						res.end();
 					} else {
 						let tag = tags[0];
@@ -68,6 +71,8 @@ app.post('/log', (req, res) => {
 							res.statusCode = 200;
 							res.write(JSON.stringify({ data: tag }));
 							res.end();
+
+							conn.end();
 
 							wsBroadcast('logged', tag);
 						});
