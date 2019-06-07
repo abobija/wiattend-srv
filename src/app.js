@@ -22,10 +22,18 @@ let wsBroadcast = (eventName, obj) => {
 	}
 };
 
+let httpResponse = data => {
+	return JSON.stringify({ data: data })
+};
+
 app.ws('/', _ws => {});
 
-app.get('/tags', (req, res) => {
+app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	next();
+});
+
+app.get('/tags', (req, res) => {
 	let conn = db.createConnection(config.mysql);
 
 	conn.connect(err => {
@@ -35,7 +43,7 @@ app.get('/tags', (req, res) => {
 			if(err) throw err;
 
 			conn.end();
-			res.send(JSON.stringify({ data: tags }));
+			res.send(httpResponse(tags));
 		});
 	});
 });
@@ -68,11 +76,10 @@ app.post('/log', (req, res) => {
 						conn.query('INSERT INTO `log`(`tag_id`, `direction`) VALUES(' + tag.id + ', ' + tag.next_direction + ')', (err, insertLogResult)  => {
 							if(err) throw err;
 							
-							res.statusCode = 200;
-							res.write(JSON.stringify({ data: tag }));
-							res.end();
-
 							conn.end();
+
+							res.statusCode = 200;
+							res.send(httpResponse(tag));
 
 							wsBroadcast('logged', tag);
 						});
