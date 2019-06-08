@@ -3,20 +3,15 @@
 
 Server uses [MySQL](https://www.mysql.com) database management system.
 
-## Abstraction
-
-![](doc/img/idea.png)
-
 ## Usage
 
-Run next command for install necessary NodeJS dependencies
+Run next commands for install dependencies and start the server
 
 ```
 npm install
-```
-
-Then run next command for starting the server
-
-```
 npm start
 ```
+
+## Abstraction
+
+![](doc/img/idea.png)
