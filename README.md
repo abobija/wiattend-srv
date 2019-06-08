@@ -44,3 +44,29 @@ All routes returns response in `JSON` format.
   **Returns**
   
   Logged tag.
+
+## WebSocket events
+
+All messages broadcasted to clients are formated in `JSON` style.
+
+```json
+{
+ "event": "event_name",
+ "data": {}
+}
+```
+
+- **logged**
+
+  Data of event ``logged`` represents logged tag. If ``next_direction`` proprety of logged tag is ``-1`` that means the user of tag is now present, otherwise (if it is ``1``) user is absent.
+
+  ```json 
+  "event": "logged",
+  "data": {
+    "id": 3, 
+    "uid": "0x79 0x09 0x08 0x85 0xFD", 
+    "first_name": "Nikola", 
+    "last_name": "Tesla", 
+    "next_direction": 1
+   }
+   ```
