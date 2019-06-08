@@ -33,6 +33,21 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.get('/logs', (req, res) => {
+	let conn = db.createConnection(config.mysql);
+
+	conn.connect(err => {
+		if(err) throw err;
+		
+		conn.query("SELECT l.id as log_id, l.time, l.direction, t.id as tag_id, t.uid, t.first_name, t.last_name FROM `log` l LEFT JOIN `tag` t ON l.tag_id = t.id ORDER BY l.id DESC LIMIT 30", (err, logs) => {
+			if(err) throw err;
+
+			conn.end();
+			res.send(httpResponse(logs));
+		});
+	});
+});
+
 app.get('/tags', (req, res) => {
 	let conn = db.createConnection(config.mysql);
 
