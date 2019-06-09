@@ -42,11 +42,7 @@ CREATE TABLE `tag` (
 --
 
 INSERT INTO `tag` (`id`, `uid`, `first_name`, `last_name`) VALUES
-(1, '0x00 0x01 0x02 0x03 0x04', 'Elon', 'Musk'),
-(2, '0x05 0x06 0x07 0x08 0x09', 'Stephen', 'Hawking'),
-(3, '0xA1 0xA2 0xA3 0xA4 0xA5', 'Nikola', 'Tesla'),
-(4, '0xC6 0xD0 0x98 0xAC 0x22', 'Thomas', 'Edison'),
-(5, '0x4A 0x23 0x54 0xC4 0xD2', 'Albert', 'Einstein');
+(1, '0x00 0x01 0x02 0x03 0x04', 'John', 'Doe');
 
 --
 -- Indexes for dumped tables
@@ -79,7 +75,7 @@ ALTER TABLE `log`
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
