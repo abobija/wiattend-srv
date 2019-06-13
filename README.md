@@ -14,6 +14,10 @@ npm start
 
 ![](doc/img/idea.png)
 
+## Demo
+
+[![RFID Attendance System - ESP32 - NodeJS + MySQL](https://img.youtube.com/vi/TH8eR9hSwzc/mqdefault.jpg)](https://www.youtube.com/watch?v=TH8eR9hSwzc)
+
 ## HTTP Routes
 
 All routes returns response in `JSON` format.
