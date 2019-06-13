@@ -6,7 +6,7 @@
 Run next commands for install dependencies and start the server
 
 ```
-npm install
+npm i
 npm start
 ```
 
