@@ -1,8 +1,4 @@
-/*
- * This file is part of wiattend-server project
- * https://github.com/abobija/wiattend-srv
- */
-
+const colors = require('colors');
 const app    = require('express')();
 const db     = require('mysql');
 const config = require('./config');
@@ -107,4 +103,19 @@ app.post('/log', (req, res) => {
 	}
 });
 
-app.listen(config.port, () => console.log('Server has been started.'));
+app.listen(config.port, () => {
+	console.log(`Server has been started at port ${config.port}.`.green);
+	console.log('Testing database connection. Please wait...');
+
+	const conn = db.createConnection(config.mysql);
+
+	conn.connect(err => {
+		if(err) {
+			console.log(err.message.red);
+			console.log(`Can't connect to database.`.red);
+			console.log('Please check if MySql settings in config.js file are valid.')
+		} else {
+			console.log('Connection with database successfully established.'.green);
+		}
+	});
+});
